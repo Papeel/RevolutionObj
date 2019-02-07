@@ -37,8 +37,12 @@ public class Point3D{
 
 PShape obj;
 boolean revu = false;
-Point3D lastPoint;
+
 ArrayList<Point3D> points;
+void reset(){
+ points = new ArrayList();
+ revu = false;
+}
 void setup(){
  
  size(999,999,P3D);
@@ -48,6 +52,8 @@ void setup(){
 
 void draw(){
   background(0);
+  textSize(26);
+  text ("Press Q to reset" , 20, 25) ;
   if(revu == false){
     stroke(255);
     line(500,0,500,height);
@@ -67,7 +73,7 @@ void draw(){
 }
 
 void mouseClicked(){
-  if(revu == false){
+  if(revu == false && revu==false){
      points.add(new Point3D(mouseX,mouseY)); 
   }
   
@@ -75,7 +81,7 @@ void mouseClicked(){
 
 
 void keyPressed(){
- if(keyCode == UP){
+ if(keyCode == UP && revu == false){
    float rad = 8*3.141592/180;
    revu = true; 
    obj = createShape();
@@ -84,19 +90,21 @@ void keyPressed(){
     obj.stroke(255) ;
     obj.strokeWeight(2) ;
     ArrayList<Point3D> nextP =  new ArrayList();
+    ArrayList<Point3D> act =  new ArrayList();
     for(int i = 0; i< points.size(); i++){
          Point3D p = points.get(i);
          p.setX(p.getX()-500);
          p.setY(p.getY()-500);
+         act.add(p);
          int xx = (int) (p.getX()*cos(rad));
          int zz = (int) (p.getX()*sin(rad));
          nextP.add(new Point3D(xx,p.getY(),zz));
          
      }
      
-     for(int j = 0; j< 360; j= j + 8){
+     for(int j = 0; j<= 360; j= j + 8){
        for(int i = 0; i< points.size(); i++){
-         Point3D p = points.get(i);
+         Point3D p = act.get(i);
          if(points.size() != i+1){
            Point3D p1 = nextP.get(i);
            Point3D p2 = nextP.get(i+1);
@@ -113,8 +121,9 @@ void keyPressed(){
            
          }
        }
-       points = nextP;
+       act = nextP;
        nextP =  new ArrayList();
+       rad = (j+8)*3.141592/180;
        for(int i = 0; i< points.size(); i++){
          Point3D p = points.get(i);
          int xx = (int) (p.getX()*cos(rad)-p.getZ()*sin(rad));
@@ -125,6 +134,8 @@ void keyPressed(){
            
      }
      obj.endShape();
+ }else if(key == 'q' || key =='Q'){
+    reset(); 
  }
   
 }
