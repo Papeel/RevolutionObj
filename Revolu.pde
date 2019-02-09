@@ -55,6 +55,8 @@ void draw(){
   textSize(26);
   text ("Press Q to reset" , 20, 25) ;
   if(revu == false){
+    textSize(30);
+    text ("Dibuje en la parte derecha.\n\nPulse 'UP' para la revolución" , 20, 500) ;
     stroke(255);
     line(500,0,500,height);
     if(points.size()>1){
@@ -74,6 +76,7 @@ void draw(){
 
 void mouseClicked(){
   if(revu == false && revu==false){
+    if(mouseX<500)return;
      points.add(new Point3D(mouseX,mouseY)); 
   }
   
