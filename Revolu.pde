@@ -40,8 +40,8 @@ boolean revu = false;
 
 ArrayList<Point3D> points;
 void reset(){
- points = new ArrayList();
- revu = false;
+   points = new ArrayList();
+  revu = false;
 }
 void setup(){
  
