@@ -89,53 +89,38 @@ void keyPressed(){
    revu = true; 
    obj = createShape();
     obj.beginShape(TRIANGLE_STRIP);
-    obj.noFill() ;
+    obj.fill(255,0,0) ;
     obj.stroke(255) ;
     obj.strokeWeight(2) ;
-    ArrayList<Point3D> nextP =  new ArrayList();
-    ArrayList<Point3D> act =  new ArrayList();
+    
+   
     for(int i = 0; i< points.size(); i++){
          Point3D p = points.get(i);
          p.setX(p.getX()-500);
          p.setY(p.getY()-500);
-         act.add(p);
-         int xx = (int) (p.getX()*cos(rad));
-         int zz = (int) (p.getX()*sin(rad));
-         nextP.add(new Point3D(xx,p.getY(),zz));
          
      }
      
-     for(int j = 0; j<= 360; j= j + 8){
-       for(int i = 0; i< points.size(); i++){
-         Point3D p = act.get(i);
-         if(points.size() != i+1){
-           Point3D p1 = nextP.get(i);
-           Point3D p2 = nextP.get(i+1);
-           obj.vertex(p.getX(),p.getY(),p.getZ());
-           obj.vertex(p1.getX(),p1.getY(),p1.getZ());
-           obj.vertex(p2.getX(),p2.getY(),p2.getZ());
-           
-         }else{
-           Point3D p1 = nextP.get(i);
-           Point3D p2 = nextP.get(i-1);
-           obj.vertex(p.getX(),p.getY(),p.getZ());
-           obj.vertex(p1.getX(),p1.getY(),p1.getZ());
-           obj.vertex(p2.getX(),p2.getY(),p2.getZ());
-           
+     
+     for(int i = 1; i< points.size(); i++){
+         Point3D p1 = points.get(i-1);
+         Point3D p2 = points.get(i);
+         obj.vertex(p1.getX(),p1.getY(),p1.getZ());
+         obj.vertex(p2.getX(),p2.getY(),p2.getZ()); 
+         for(int j = 0; j<= 360; j= j + 8){
+           rad = (j+8)*3.141592/180;
+           int xx1 = (int) (p1.getX()*cos(rad)-p1.getZ()*sin(rad));
+           int zz1 = (int) (p1.getX()*sin(rad) + p1.getZ()*cos(rad));
+           int xx2 = (int) (p2.getX()*cos(rad)-p2.getZ()*sin(rad));
+           int zz2 = (int) (p2.getX()*sin(rad) + p2.getZ()*cos(rad));
+           obj.vertex(xx1,p1.getY(),zz1);
+           obj.vertex(xx2,p2.getY(),zz2);
          }
-       }
-       act = nextP;
-       nextP =  new ArrayList();
-       rad = (j+8)*3.141592/180;
-       for(int i = 0; i< points.size(); i++){
-         Point3D p = points.get(i);
-         int xx = (int) (p.getX()*cos(rad)-p.getZ()*sin(rad));
-         int zz = (int) (p.getX()*sin(rad) + p.getZ()*cos(rad));
-         nextP.add(new Point3D(xx,p.getY(),zz));
-       }
-           
-           
+         
      }
+           
+           
+     
      obj.endShape();
  }else if(key == 'q' || key =='Q'){
     reset(); 
